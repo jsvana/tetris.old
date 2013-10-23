@@ -1,6 +1,9 @@
 # Object files
 *.o
 *.ko
+#
+# Prog
+tetris
 
 # Libraries
 *.lib
