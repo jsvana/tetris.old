@@ -1,6 +1,7 @@
 #include "main_screen.h"
 
 #include "../logging.h"
+#include "../matrix.h"
 #include "../shader.h"
 #include "../util.h"
 
@@ -8,6 +9,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <gsl/gsl_matrix.h>
 #include <math.h>
 #include <stdlib.h>
 
@@ -34,6 +36,7 @@ int mainScreenUpdate(Screen *s, unsigned int ticks) {
 }
 
 void mainScreenRender(Screen *s) {
+	glViewport(0, 0, screenWidth / 2, screenHeight / 2);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
@@ -100,6 +103,25 @@ Screen *mainScreenCreate() {
 	s->type = MAIN_SCREEN;
 	s->update = mainScreenUpdate;
 	s->render = mainScreenRender;
+
+	Matrix *sc = scaleMatrix4(2, 3, 4);
+	Matrix *r = rotationMatrix4(90, 0, 0, 1);
+	matrixPrint(sc);
+	printf("\n");
+	matrixPrint(r);
+	printf("\n");
+
+	Matrix *out = matrixMultiply(sc, r);
+	matrixPrint(out);
+	printf("\n");
+
+	Matrix *t = matrixTranspose(out);
+	matrixPrint(t);
+
+	matrixDestroy(sc);
+	matrixDestroy(r);
+	matrixDestroy(out);
+	matrixDestroy(t);
 
 	return s;
 }
