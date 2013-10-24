@@ -1,3 +1,4 @@
+extern "C" {
 #define GLEW_STATIC
 
 #include <GL/glew.h>
@@ -14,6 +15,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
+}
 
 GLFWwindow *window;
 
@@ -46,7 +48,7 @@ void init() {
 	glewExperimental = GL_TRUE;
 	glewInit();
 
-	screen = mainScreenCreate();
+	screen = new MainScreen();
 
 	// Use 24-bit color for readability's sake
 	float paletteColors[PALETTE_COLOR_COUNT][3] = {
@@ -68,7 +70,7 @@ void init() {
 }
 
 void cleanup() {
-
+	delete screen;
 }
 
 void key(GLFWwindow *window, int key, int scancode, int action, int mode) {
@@ -109,11 +111,11 @@ int main(int argc, char** argv) {
 		glfwPollEvents();
 
 		time = getTime();
-		screen->update(screen, time - lastTime);
+		screen->update(time - lastTime);
 		lastTime = time;
 
 		glClear(GL_COLOR_BUFFER_BIT);
-		screen->render(screen);
+		screen->render();
 		glfwSwapBuffers(window);
 	}
 

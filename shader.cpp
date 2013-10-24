@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-char* shaderRead(const char *file) {
+char *shaderRead(const char *file) {
 	int fd;
 	long size;
 	char *buf;
@@ -18,7 +18,7 @@ char* shaderRead(const char *file) {
 	}
 
 	size = lseek(fd, 0, SEEK_END);
-	buf = malloc(sizeof(char) * (size + 1));
+	buf = (char *)malloc(sizeof(char) * (size + 1));
 
 	lseek(fd, 0, SEEK_SET);
 	read(fd, buf, size);

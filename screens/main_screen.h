@@ -3,15 +3,32 @@
 
 #include "../screen.h"
 
-typedef struct {
+#define GLEW_STATIC
 
-} MainScreenData;
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
-Screen *mainScreenCreate();
+class MainScreen : public Screen {
+private:
+	GLuint vao, vbo;
+	GLuint vertexShader, fragmentShader;
+	GLuint shaderProgram;
+	GLuint uniColor, transUniform;
+	GLuint posAttrib;
 
-int mainScreenUpdate(Screen *s, unsigned int ticks);
-void mainScreenRender(Screen *s);
+	GLfloat vertices[6] = {
+		0, 0.5,
+		0.5, -0.5,
+		-0.5, -0.5
+	};
 
-void mainScreenDestroy(Screen *s);
+public:
+	MainScreen();
+
+	int update(unsigned int);
+	void render();
+
+	~MainScreen();
+};
 
 #endif
