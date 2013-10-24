@@ -75,7 +75,7 @@ Matrix *rotationMatrix4(double a, int x, int y, int z) {
 	}
 }
 
-Matrix *translationMatrix4(int x, int y, int z) {
+Matrix *translationMatrix4(double x, double y, double z) {
 	double transMat[] = {
 		1, 0, 0, x,
 		0, 1, 0, y,

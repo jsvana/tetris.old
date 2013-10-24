@@ -19,8 +19,8 @@ extern int screenHeight;
 GLuint vao, vbo;
 GLuint vertexShader, fragmentShader;
 GLuint shaderProgram;
-GLuint uniColor;
-GLint posAttrib;
+GLuint uniColor, transUniform;
+GLuint posAttrib;
 
 GLfloat vertices[] = {
 	0, 0.5,
@@ -36,7 +36,13 @@ int mainScreenUpdate(Screen *s, unsigned int ticks) {
 }
 
 void mainScreenRender(Screen *s) {
-	glViewport(0, 0, screenWidth / 2, screenHeight / 2);
+	//glViewport(0, 0, screenWidth / 2, screenHeight / 2);
+
+	Matrix *m = scaleMatrix4(1.25, 1, 1);
+
+	transUniform = glGetUniformLocation(shaderProgram, "trans");
+	glUniformMatrix4fv(transUniform, 1, GL_TRUE, (float *)m->data);
+
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
