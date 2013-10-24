@@ -8,19 +8,16 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <glm/glm.hpp>
+
 class MainScreen : public Screen {
 private:
-	GLuint vao, vbo;
+	GLuint vao, vbo, ebo;
 	GLuint vertexShader, fragmentShader;
 	GLuint shaderProgram;
-	GLuint uniColor, transUniform;
-	GLuint posAttrib;
-
-	GLfloat vertices[6] = {
-		0, 0.5,
-		0.5, -0.5,
-		-0.5, -0.5
-	};
+	GLuint uniColor1, uniColor2, uniColor3, transUniform;
+	GLuint posAttrib, colAttrib;
+	glm::mat4 trans;
 
 public:
 	MainScreen();
