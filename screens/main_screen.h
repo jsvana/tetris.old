@@ -17,7 +17,8 @@ private:
 	GLuint shaderProgram;
 	GLuint uniColor1, uniColor2, uniColor3, transUniform;
 	GLuint posAttrib, colAttrib;
-	glm::mat4 trans;
+	GLuint uProj, uView, uModel;
+	glm::mat4 proj, view, model;
 
 public:
 	MainScreen();

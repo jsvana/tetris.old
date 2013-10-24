@@ -1,4 +1,3 @@
-extern "C" {
 #define GLEW_STATIC
 
 #include <GL/glew.h>
@@ -15,7 +14,6 @@ extern "C" {
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
-}
 
 GLFWwindow *window;
 

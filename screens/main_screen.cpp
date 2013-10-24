@@ -86,9 +86,21 @@ MainScreen::MainScreen() {
 	glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
 		(void *)(2 * sizeof(float)));
 
-	transUniform = glGetUniformLocation(shaderProgram, "trans");
-	trans = glm::translate(trans, glm::vec3(0, 0, 0));
-	glUniformMatrix4fv(transUniform, 1, GL_FALSE, glm::value_ptr(trans));
+	uModel = glGetUniformLocation(shaderProgram, "model");
+	model = glm::translate(model, glm::vec3(-.25, .25, 0));
+	glUniformMatrix4fv(uModel, 1, GL_FALSE, glm::value_ptr(model));
+
+	uView = glGetUniformLocation(shaderProgram, "view");
+	view = glm::lookAt(
+		glm::vec3(1.2f, 1.2f, 1.2f),
+		glm::vec3(0.0f, 0.0f, 0.0f),
+		glm::vec3(0.0f, 0.0f, 1.0f)
+	);
+	glUniformMatrix4fv(uView, 1, GL_FALSE, glm::value_ptr(view));
+
+	uProj = glGetUniformLocation(shaderProgram, "proj");
+	proj = glm::perspective(45.0f, (float)screenWidth / screenHeight, 0.0f, 10.0f);
+	glUniformMatrix4fv(uProj, 1, GL_FALSE, glm::value_ptr(proj));
 }
 
 int MainScreen::update(unsigned int ticks) {
@@ -96,9 +108,9 @@ int MainScreen::update(unsigned int ticks) {
 }
 
 void MainScreen::render() {
-	//glViewport(0, 0, screenWidth / 2, screenHeight / 2);
+	glViewport(0, 0, screenWidth, screenHeight);
 
-	//glUniformMatrix4fv(transUniform, 1, GL_FALSE, glm::value_ptr(trans));
+	//glViewport(0, 0, screenWidth / 2, screenHeight / 2);
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
