@@ -3,6 +3,7 @@
 #include "../logging.h"
 #include "../matrix.h"
 #include "../shader.h"
+#include "../shader_manager.h"
 #include "../util.h"
 
 #define GLEW_STATIC
@@ -16,6 +17,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <string>
+#include <vector>
+
 extern int screenWidth;
 extern int screenHeight;
 
@@ -24,15 +28,15 @@ MainScreen::MainScreen() {
 	glBindVertexArray(vao);
 
 	GLfloat vertices[] = {
-		-0.5, 0.5, 1, 0, 0,
-		0.5, 0.5, 0, 1, 0,
-		0.5, -0.5, 0, 0, 1,
-		-0.5, -0.5, 1, 1, 0
+		-0.5, 0.5,
+		0.5, 0.5,
+		0.5, -0.5,
+		-0.5, -0.5
 	};
 
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, 20 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
 
 	glGenBuffers(1, &ebo);
 
@@ -45,46 +49,32 @@ MainScreen::MainScreen() {
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(GLuint), elements,
 		GL_STATIC_DRAW);
 
-	char *shaderSource = shaderRead("vertex.vert");
-	const char *source = shaderSource;
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &source, NULL);
-	free(shaderSource);
+	printf("asdf\n");
+	std::vector<std::string> shaders = {
+		"../shaders/main.vert",
+		"../shaders/main.frag",
+	};
 
-	glCompileShader(vertexShader);
+	std::vector<GLuint> types = {
+		GL_VERTEX_SHADER,
+		GL_FRAGMENT_SHADER
+	};
 
-	if (!shaderDidCompile(vertexShader)) {
-		shaderPrintCompileLog(vertexShader);
+	printf("asdf\n");
+	for (int i = 0; i < shaders.size(); i++) {
+		SHADERMAN->load(shaders[i], types[i]);
 	}
+	printf("asdf\n");
 
-	shaderSource = shaderRead("fragment.frag");
-	source = shaderSource;
+	shaderProgram = SHADERMAN->buildProgram(shaders);
+	printf("asdf\n");
 
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &source, NULL);
-	free(shaderSource);
-
-	glCompileShader(fragmentShader);
-
-	if (!shaderDidCompile(fragmentShader)) {
-		shaderPrintCompileLog(fragmentShader);
-	}
-
-	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glBindFragDataLocation(shaderProgram, 0, "outColor");
-	glLinkProgram(shaderProgram);
 	glUseProgram(shaderProgram);
+	printf("asdf\n");
 
 	posAttrib = glGetAttribLocation(shaderProgram, "position");
 	glEnableVertexAttribArray(posAttrib);
-	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
-
-	colAttrib = glGetAttribLocation(shaderProgram, "color");
-	glEnableVertexAttribArray(colAttrib);
-	glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
-		(void *)(2 * sizeof(float)));
+	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
 	uModel = glGetUniformLocation(shaderProgram, "model");
 	model = glm::translate(model, glm::vec3(-.25, .25, 0));
@@ -92,7 +82,7 @@ MainScreen::MainScreen() {
 
 	uView = glGetUniformLocation(shaderProgram, "view");
 	view = glm::lookAt(
-		glm::vec3(1.2f, 1.2f, 1.2f),
+		glm::vec3(0.0f, 1.2f, 1.2f),
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 0.0f, 1.0f)
 	);
@@ -101,6 +91,10 @@ MainScreen::MainScreen() {
 	uProj = glGetUniformLocation(shaderProgram, "proj");
 	proj = glm::perspective(45.0f, (float)screenWidth / screenHeight, 0.0f, 10.0f);
 	glUniformMatrix4fv(uProj, 1, GL_FALSE, glm::value_ptr(proj));
+
+	printf("before create cube\n");
+	cube = new Cube(-1, -1);
+	printf("after create cube\n");
 }
 
 int MainScreen::update(unsigned int ticks) {
@@ -108,11 +102,16 @@ int MainScreen::update(unsigned int ticks) {
 }
 
 void MainScreen::render() {
+	printf("render\n");
 	glViewport(0, 0, screenWidth, screenHeight);
-
-	//glViewport(0, 0, screenWidth / 2, screenHeight / 2);
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glUseProgram(shaderProgram);
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+	cube->render();
 }
 
 MainScreen::~MainScreen() {

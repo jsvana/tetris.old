@@ -3,6 +3,8 @@
 
 #include "../screen.h"
 
+#include "../objs/cube.h"
+
 #define GLEW_STATIC
 
 #include <GL/glew.h>
@@ -20,10 +22,12 @@ private:
 	GLuint uProj, uView, uModel;
 	glm::mat4 proj, view, model;
 
+	Cube *cube;
+
 public:
 	MainScreen();
 
-	int update(unsigned int);
+	int update(unsigned int ticks);
 	void render();
 
 	~MainScreen();
