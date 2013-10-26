@@ -12,6 +12,8 @@
 
 #include <glm/glm.hpp>
 
+#include <vector>
+
 class MainScreen : public Screen {
 private:
 	GLuint vao, vbo, ebo;
@@ -22,7 +24,7 @@ private:
 	GLuint uProj, uView, uModel;
 	glm::mat4 proj, view, model;
 
-	Cube *cube;
+	Cube *cubes[4][4];
 
 public:
 	MainScreen();

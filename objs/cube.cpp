@@ -54,24 +54,51 @@ Cube::Cube(float x, float y) {
 
 	uColor = glGetUniformLocation(shader, "color");
 
-	size = glm::vec3(1, 1, 1);
+	uModel = glGetUniformLocation(shader, "model");
+	uView = glGetUniformLocation(shader, "view");
+
+	size = glm::vec2(1, 1);
+	setPosition(x, y);
 }
 
 void Cube::move(float x, float y) {
+	position.x += x;
+	position.y += y;
+
+	glm::mat4 v;
+	v = glm::translate(v, glm::vec3(position.x, position.y, 0));
+
+	glUniformMatrix4fv(uView, 1, GL_FALSE, glm::value_ptr(v));
+}
+
+void Cube::setPosition(float x, float y) {
+	position = glm::vec2(x, y);
+
+	glm::mat4 v;
+	v = glm::translate(v, glm::vec3(position.x, position.y, 0));
+
+	glUniformMatrix4fv(uView, 1, GL_FALSE, glm::value_ptr(v));
 }
 
 void Cube::setColor(float r, float g, float b) {
 	color = glm::vec3(r, g, b);
+	glUniform3f(uColor, color.r, color.g, color.b);
+}
+
+void Cube::setSize(float w, float h) {
+	size = glm::vec2(w, h);
+
+	glm::mat4 s;
+	s = glm::scale(s, glm::vec3(w, h, 1));
+
+	glUniformMatrix4fv(uModel, 1, GL_FALSE, glm::value_ptr(s));
 }
 
 void Cube::render() {
-	glViewport(0, 0, 10, 10);
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glUseProgram(shader);
-
-	glUniform3f(uColor, color.r, color.g, color.b);
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

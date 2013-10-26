@@ -16,15 +16,19 @@ private:
 	GLuint shader;
 	GLuint posAttrib;
 	GLuint uColor;
-	glm::mat4 trans = glm::mat4();
-	glm::vec3 size;
+	GLuint uModel, uView;
+	glm::vec2 position;
+	glm::vec2 size;
 	glm::vec3 color;
 
 public:
 	Cube(float x, float y);
 
 	void move(float x, float y);
+	void setPosition(float x, float y);
+	void setSize(float w, float h);
 	void setColor(float r, float g, float b);
+
 	void render();
 
 	~Cube();
