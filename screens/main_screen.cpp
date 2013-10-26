@@ -87,6 +87,7 @@ MainScreen::MainScreen() {
 	glUniformMatrix4fv(uProj, 1, GL_FALSE, glm::value_ptr(proj));
 
 	cube = new Cube(-1, -1);
+	cube->setColor(1, 0, 1);
 }
 
 int MainScreen::update(unsigned int ticks) {

@@ -15,13 +15,16 @@ private:
 	GLuint vao, vbo, ebo;
 	GLuint shader;
 	GLuint posAttrib;
+	GLuint uColor;
 	glm::mat4 trans = glm::mat4();
-	glm::vec3 size = glm::vec3();
+	glm::vec3 size;
+	glm::vec3 color;
 
 public:
 	Cube(float x, float y);
 
 	void move(float x, float y);
+	void setColor(float r, float g, float b);
 	void render();
 
 	~Cube();

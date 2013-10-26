@@ -52,10 +52,16 @@ Cube::Cube(float x, float y) {
 	glEnableVertexAttribArray(posAttrib);
 	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
+	uColor = glGetUniformLocation(shader, "color");
+
 	size = glm::vec3(1, 1, 1);
 }
 
 void Cube::move(float x, float y) {
+}
+
+void Cube::setColor(float r, float g, float b) {
+	color = glm::vec3(r, g, b);
 }
 
 void Cube::render() {
@@ -64,6 +70,8 @@ void Cube::render() {
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glUseProgram(shader);
+
+	glUniform3f(uColor, color.r, color.g, color.b);
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
