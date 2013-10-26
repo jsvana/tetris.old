@@ -4,9 +4,6 @@
 #include <GLFW/glfw3.h>
 
 #include "logging.h"
-#include "screen.h"
-#include "screens/main_screen.h"
-#include "util.h"
 
 #include <limits.h>
 #include <math.h>
@@ -15,23 +12,22 @@
 #include <string.h>
 #include <sys/time.h>
 
+#include "palette_manager.h"
+#include "screen.h"
+#include "screens/main_screen.h"
+#include "util.h"
+
+#include <vector>
+
 GLFWwindow *window;
 
 int screenWidth = 400;
 int screenHeight = 400;
 
-Color palette[PALETTE_COLOR_COUNT];
-
 Screen *screen;
 
 void glfwError(int err, const char *msg) {
 	ERR("GLFW error %d:\n%s\n", err, msg);
-}
-
-void setColor(Color *color, GLfloat r, GLfloat g, GLfloat b) {
-	color->r = r / 255.0f;
-	color->g = g / 255.0f;
-	color->b = b / 255.0f;
 }
 
 unsigned int getTime() {
@@ -46,25 +42,22 @@ void init() {
 	glewExperimental = GL_TRUE;
 	glewInit();
 
-	screen = new MainScreen();
-
 	// Use 24-bit color for readability's sake
-	float paletteColors[PALETTE_COLOR_COUNT][3] = {
+	std::vector<std::vector<float>> paletteColors = {
 		{118, 249, 251},
-		{0, 72, 251},
+		{0,   72,  251},
 		{243, 166, 51},
 		{255, 248, 51},
 		{168, 243, 19},
-		{114, 44, 128},
-		{233, 63, 51}
+		{114, 44,  128},
+		{233, 63,  51}
 	};
 
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 
-	for (i = 0; i < PALETTE_COLOR_COUNT; i++) {
-		setColor(&(palette[i]), paletteColors[i][0],
-			paletteColors[i][1], paletteColors[i][2]);
-	}
+	PaletteManager::getInstance()->setPalette(paletteColors);
+
+	screen = new MainScreen();
 }
 
 void cleanup() {

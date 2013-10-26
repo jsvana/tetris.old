@@ -1,5 +1,6 @@
 #include "cube.h"
 
+#include "../logging.h"
 #include "../shader_manager.h"
 
 #include <string>
@@ -80,9 +81,8 @@ void Cube::setPosition(float x, float y) {
 	glUniformMatrix4fv(uView, 1, GL_FALSE, glm::value_ptr(v));
 }
 
-void Cube::setColor(float r, float g, float b) {
-	color = glm::vec3(r, g, b);
-	glUniform3f(uColor, color.r, color.g, color.b);
+void Cube::setColor(Color c) {
+	glUniform3f(uColor, c.r, c.g, c.b);
 }
 
 void Cube::setSize(float w, float h) {

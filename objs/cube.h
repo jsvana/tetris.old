@@ -1,6 +1,9 @@
 #ifndef __CUBE_H
 #define __CUBE_H
 
+#include "cube.h"
+#include "../util.h"
+
 #define GLEW_STATIC
 
 #include <GL/glew.h>
@@ -27,7 +30,7 @@ public:
 	void move(float x, float y);
 	void setPosition(float x, float y);
 	void setSize(float w, float h);
-	void setColor(float r, float g, float b);
+	void setColor(Color c);
 
 	void render();
 

@@ -1,9 +1,9 @@
 CC=clang++
 PROG=tetris
-OBJS=main.o tetromino.o screens/main_screen.o screen.o objs/cube.o \
-	shader_manager.o
+OBJS=main.o screens/main_screen.o screen.o shader_manager.o palette_manager.o \
+	objs/cube.o objs/tetromino.o
 LIBS=glfw3 glew
-CXXFLAGS=-ggdb -std=c++11 -stdlib=libc++ $(shell pkg-config --cflags ${LIBS})
+CXXFLAGS=-g -std=c++11 -stdlib=libc++ $(shell pkg-config --cflags ${LIBS})
 LDFLAGS=$(shell pkg-config --static --libs ${LIBS}) -framework OpenAL -lm
 
 all: $(PROG)

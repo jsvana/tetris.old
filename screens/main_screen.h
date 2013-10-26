@@ -4,6 +4,7 @@
 #include "../screen.h"
 
 #include "../objs/cube.h"
+#include "../objs/tetromino.h"
 
 #define GLEW_STATIC
 
@@ -21,10 +22,11 @@ private:
 	GLuint shaderProgram;
 	GLuint uniColor1, uniColor2, uniColor3, transUniform;
 	GLuint posAttrib, colAttrib;
-	GLuint uProj, uView, uModel;
-	glm::mat4 proj, view, model;
+	GLuint uView, uModel;
+	glm::mat4 view, model;
 
-	Cube *cubes[5][5];
+	Cube *cubes[8][8];
+	Tetromino *tetromino;
 
 public:
 	MainScreen();

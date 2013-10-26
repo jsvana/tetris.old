@@ -1,7 +1,6 @@
 #include "main_screen.h"
 
 #include "../logging.h"
-#include "../matrix.h"
 #include "../shader_manager.h"
 #include "../util.h"
 
@@ -23,13 +22,18 @@ extern int screenWidth;
 extern int screenHeight;
 
 MainScreen::MainScreen() {
-	for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < 5; j++) {
+	/*
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
 			cubes[i][j] = new Cube(-.875 + .25 * j, -.875 + .25 * i);
 			cubes[i][j]->setSize(.125, .125);
-			cubes[i][j]->setColor(.125 * i, .125 * j, 0);
+			Color c(.125 * i, .125 * j, 0);
+			cubes[i][j]->setColor(c);
 		}
 	}
+	*/
+
+	tetromino = new Tetromino(0, 0, I);
 }
 
 int MainScreen::update(unsigned int ticks) {
@@ -39,11 +43,15 @@ int MainScreen::update(unsigned int ticks) {
 void MainScreen::render() {
 	glViewport(0, 0, screenWidth, screenHeight);
 
-	for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < 5; j++) {
+	/*
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
 			cubes[i][j]->render();
 		}
 	}
+	*/
+
+	tetromino->render();
 }
 
 MainScreen::~MainScreen() {
