@@ -24,7 +24,7 @@ private:
 	GLuint uProj, uView, uModel;
 	glm::mat4 proj, view, model;
 
-	Cube *cubes[4][4];
+	Cube *cubes[5][5];
 
 public:
 	MainScreen();
