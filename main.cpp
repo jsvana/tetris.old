@@ -4,8 +4,8 @@
 #include <GLFW/glfw3.h>
 
 #include "logging.h"
-#include "screens/main_screen.h"
 #include "screen.h"
+#include "screens/main_screen.h"
 #include "util.h"
 
 #include <limits.h>

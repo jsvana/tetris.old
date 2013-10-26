@@ -2,7 +2,6 @@
 
 #include "../logging.h"
 #include "../matrix.h"
-#include "../shader.h"
 #include "../shader_manager.h"
 #include "../util.h"
 
@@ -49,10 +48,9 @@ MainScreen::MainScreen() {
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(GLuint), elements,
 		GL_STATIC_DRAW);
 
-	printf("asdf\n");
 	std::vector<std::string> shaders = {
-		"../shaders/main.vert",
-		"../shaders/main.frag",
+		"shaders/main.vert",
+		"shaders/main.frag",
 	};
 
 	std::vector<GLuint> types = {
@@ -60,21 +58,17 @@ MainScreen::MainScreen() {
 		GL_FRAGMENT_SHADER
 	};
 
-	printf("asdf\n");
 	for (int i = 0; i < shaders.size(); i++) {
 		SHADERMAN->load(shaders[i], types[i]);
 	}
-	printf("asdf\n");
 
 	shaderProgram = SHADERMAN->buildProgram(shaders);
-	printf("asdf\n");
 
 	glUseProgram(shaderProgram);
-	printf("asdf\n");
 
 	posAttrib = glGetAttribLocation(shaderProgram, "position");
 	glEnableVertexAttribArray(posAttrib);
-	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 	uModel = glGetUniformLocation(shaderProgram, "model");
 	model = glm::translate(model, glm::vec3(-.25, .25, 0));
@@ -92,9 +86,7 @@ MainScreen::MainScreen() {
 	proj = glm::perspective(45.0f, (float)screenWidth / screenHeight, 0.0f, 10.0f);
 	glUniformMatrix4fv(uProj, 1, GL_FALSE, glm::value_ptr(proj));
 
-	printf("before create cube\n");
 	cube = new Cube(-1, -1);
-	printf("after create cube\n");
 }
 
 int MainScreen::update(unsigned int ticks) {
@@ -102,8 +94,8 @@ int MainScreen::update(unsigned int ticks) {
 }
 
 void MainScreen::render() {
-	printf("render\n");
 	glViewport(0, 0, screenWidth, screenHeight);
+
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);

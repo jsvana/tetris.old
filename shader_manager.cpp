@@ -7,17 +7,17 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <iostream>
+
 ShaderManager *ShaderManager::instance = nullptr;
 
 ShaderManager::ShaderManager() {
 }
 
 ShaderManager *ShaderManager::getInstance() {
-	printf("bar\n");
 	if (ShaderManager::instance == nullptr) {
 		ShaderManager::instance = new ShaderManager();
 	}
-	printf("bar\n");
 
 	return ShaderManager::instance;
 }
@@ -71,15 +71,13 @@ GLuint ShaderManager::load(std::string shader, int type) {
 		shaderPrintCompileLog(id);
 	}
 
-	getInstance()->shaders.insert(std::pair<std::string, GLuint>(shader, type));
+	getInstance()->shaders.insert(std::pair<std::string, GLuint>(shader, id));
 
 	return id;
 }
 
 GLuint ShaderManager::buildProgram(std::vector<std::string> shaderList) {
-	printf("foo\n");
 	GLuint prog = glCreateProgram();
-	printf("foo\n");
 
 	for (std::string &shader : shaderList) {
 		auto it = getInstance()->shaders.find(shader);
@@ -87,12 +85,9 @@ GLuint ShaderManager::buildProgram(std::vector<std::string> shaderList) {
 			glAttachShader(prog, it->second);
 		}
 	}
-	printf("foo\n");
 
 	glBindFragDataLocation(prog, 0, "outColor");
-	printf("foo\n");
 	glLinkProgram(prog);
-	printf("foo\n");
 
 	return prog;
 }

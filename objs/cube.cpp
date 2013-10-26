@@ -50,7 +50,7 @@ Cube::Cube(float x, float y) {
 
 	posAttrib = glGetAttribLocation(shader, "position");
 	glEnableVertexAttribArray(posAttrib);
-	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 	size = glm::vec3(1, 1, 1);
 }
@@ -59,6 +59,7 @@ void Cube::move(float x, float y) {
 }
 
 void Cube::render() {
+	glViewport(0, 0, 10, 10);
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);

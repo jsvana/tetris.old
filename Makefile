@@ -1,6 +1,6 @@
 CC=clang++
 PROG=tetris
-OBJS=main.o tetromino.o screens/main_screen.o shader.o screen.o objs/cube.o \
+OBJS=main.o tetromino.o screens/main_screen.o screen.o objs/cube.o \
 	shader_manager.o
 LIBS=glfw3 glew
 CXXFLAGS=-ggdb -std=c++11 -stdlib=libc++ $(shell pkg-config --cflags ${LIBS})
