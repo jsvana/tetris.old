@@ -21,8 +21,8 @@
 
 GLFWwindow *window;
 
-int screenWidth = 400;
-int screenHeight = 400;
+int screenWidth = 230;
+int screenHeight = 420;
 
 Screen *screen;
 
@@ -98,6 +98,9 @@ int main(int argc, char** argv) {
 
 	unsigned int lastTime = getTime(), time;
 
+	glm::mat4 proj = glm::ortho(0.0f, (float)screenWidth, (float)screenHeight,
+		0.0f, -1.0f, 1.0f);
+
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 
@@ -106,7 +109,7 @@ int main(int argc, char** argv) {
 		lastTime = time;
 
 		glClear(GL_COLOR_BUFFER_BIT);
-		screen->render();
+		screen->render(proj);
 		glfwSwapBuffers(window);
 	}
 

@@ -24,6 +24,7 @@ private:
 	GLuint posAttrib, colAttrib;
 	GLuint uView, uModel;
 	glm::mat4 view, model;
+	glm::mat4 tetrominoProj;
 
 	Cube *cubes[8][8];
 	Tetromino *tetromino;
@@ -32,7 +33,7 @@ public:
 	MainScreen();
 
 	int update(unsigned int ticks);
-	void render();
+	void render(glm::mat4 proj);
 
 	~MainScreen();
 };

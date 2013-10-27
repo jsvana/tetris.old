@@ -19,7 +19,7 @@ private:
 	GLuint shader;
 	GLuint posAttrib;
 	GLuint uColor;
-	GLuint uModel, uView;
+	GLuint uModel, uView, uProj;
 	glm::vec2 position;
 	glm::vec2 size;
 	glm::vec3 color;
@@ -32,7 +32,7 @@ public:
 	void setSize(float w, float h);
 	void setColor(Color c);
 
-	void render();
+	void render(glm::mat4 proj);
 
 	~Cube();
 };

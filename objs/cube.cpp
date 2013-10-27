@@ -57,6 +57,7 @@ Cube::Cube(float x, float y) {
 
 	uModel = glGetUniformLocation(shader, "model");
 	uView = glGetUniformLocation(shader, "view");
+	uProj = glGetUniformLocation(shader, "proj");
 
 	size = glm::vec2(1, 1);
 	setPosition(x, y);
@@ -94,11 +95,13 @@ void Cube::setSize(float w, float h) {
 	glUniformMatrix4fv(uModel, 1, GL_FALSE, glm::value_ptr(s));
 }
 
-void Cube::render() {
+void Cube::render(glm::mat4 proj) {
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glUseProgram(shader);
+
+	glUniformMatrix4fv(uProj, 1, GL_FALSE, glm::value_ptr(proj));
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

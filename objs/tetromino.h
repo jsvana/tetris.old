@@ -29,7 +29,7 @@ public:
 
 	void setPosition(float x, float y);
 
-	void render();
+	void render(glm::mat4 proj);
 
 	~Tetromino();
 };

@@ -34,13 +34,14 @@ MainScreen::MainScreen() {
 	*/
 
 	tetromino = new Tetromino(0, 0, I);
+	tetrominoProj = glm::ortho(0, 200, 400, 0, -1, 1);
 }
 
 int MainScreen::update(unsigned int ticks) {
 	return FALSE;
 }
 
-void MainScreen::render() {
+void MainScreen::render(glm::mat4 proj) {
 	glViewport(0, 0, screenWidth, screenHeight);
 
 	/*
@@ -51,7 +52,8 @@ void MainScreen::render() {
 	}
 	*/
 
-	tetromino->render();
+	glViewport(20, 10, screenWidth - 30, screenWidth - 20);
+	tetromino->render(tetrominoProj);
 }
 
 MainScreen::~MainScreen() {
